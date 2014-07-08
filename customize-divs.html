@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Local storage of div dialog boxes</title>
+		<!-- Load the jQuery UI CSS -->
+		<link rel="stylesheet" href="assets/jquery-ui-1.8.16.custom.css" type="text/css">
+		
+		<!-- Load jQuery first before jQuery UI! -->
+		<script src="assets/jquery-1.6.2.min.js"></script>
+		<script src="assets/jquery-ui-1.8.16.custom.min.js"></script>
+		<script>
+		var _init = $.ui.dialog.prototype._init;
+		$.ui.dialog.prototype._init = function() {
+			_init.apply(this, arguments);
+			
+			var dialog_element = this;
+			var dialog_id = this.uiDialogTitlebar.next().attr('id');
+			
+			this.uiDialogTitlebar.append('<a href="#" id="' + dialog_id + 
+			'-minbutton" class="ui-dialog-titlebar-minimize ui-corner-all">'+
+			'<span class="ui-icon ui-icon-minusthick"></span></a>');
+			
+			$('#dialog_window_minimized_container').append(
+				'<div class="dialog_window_minimized ui-widget ui-state-default ui-corner-all" id="' + 
+				dialog_id + '_minimized">' + this.uiDialogTitlebar.find('.ui-dialog-title').text() + 
+				'<span class="ui-icon ui-icon-newwin"></div>');
+				
+			$('#' + dialog_id + '-minbutton').hover(function() {
+				$(this).addClass('ui-state-hover');
+			}, function() {
+				$(this).removeClass('ui-state-hover');
+			}).click(function() {
+				dialog_element.close();
+				$('#' + dialog_id + '_minimized').show();
+			});
+			
+			$('#' + dialog_id + '_minimized').click(function() {
+				$(this).hide();
+				dialog_element.open();
+			});
+		};
+		</script>
+		<script>
+			$(document).ready(function() {
+				$('#create_button').button().click(function() {
+					var create_dialog = $('#dialog_window_1');
+					var create_button = $(this);
+					if( create_dialog.dialog('isOpen') ) {
+						create_button.button('option', 'label', 'Create a new Window');
+						create_dialog.dialog('close');
+					} else {
+						create_button.button('option', 'label', 'Close Window');
+						create_dialog.dialog('open');
+					}
+				});
+				
+				$('#dialog_window_1').dialog({
+					width: 'auto',
+					height: 'auto',
+					autoOpen : false,
+					buttons: [
+						{
+							text: 'Create',
+							click: function() {
+								var div_count = $('.dialog_window').length + 1;
+								var div_id = 'dialog_window_' + div_count;
+								var div_title = $('#new_window_title').val();
+								var div_content = $('#new_window_content').val();
+								var buttons = new Array();
+								if( $('#alertbutton').is(':checked') ) {
+									buttons.push({
+										text: 'ALERT',
+										click: function() {
+											alert('ALERTING from Dialog Widnow: ' + div_title);
+										}
+									});
+								}
+								
+								if( $('#closebutton').is(':checked') ) {
+									buttons.push({
+										text: 'CLOSE',
+										click: function() {
+											$('#' + div_id).dialog('close');
+										}
+									});
+								}
+								
+								$('body').append('<div class="dialog_window" id="' + div_id + '">' + div_content + '</div>');
+				
+								var dialog = $('#' + div_id).dialog({
+									width: 'auto',
+									height: 'auto',
+									title : div_title,
+									autoOpen : true,
+									buttons: buttons
+								});
+							}
+						}
+					]
+				});
+				$('#buttonlist').buttonset();
+			});
+		</script>
+		
+		<style>
+		.dialog_form th {
+			text-align: left;
+		}
+		
+		.dialog_form textarea, .dialog_form input[type=text] {
+			width: 320px;
+		}
+		
+		#dialog_window_minimized_container {
+			position: fixed;
+			bottom: 0px;
+			left: 0px;
+		}
+		
+		.dialog_window_minimized {
+			float: left;
+			padding: 5px 10px;
+			font-size: 12px;
+			cursor: pointer;
+			margin-right: 2px;
+			display: none;
+		}
+		
+		.dialog_window_minimized .ui-icon {
+			display: inline-block !important;
+			position: relative;
+			top: 3px;
+			cursor: pointer;
+		}
+		
+		.ui-dialog .ui-dialog-titlebar-minimize {
+			height: 18px;
+			width: 19px;
+			padding: 1px;
+			position: absolute;
+			right: 23px;
+			top: 9px;
+		}
+		
+		.ui-dialog .ui-dialog-titlebar-minimize .ui-icon {
+			display: block;
+			margin: 1px;
+		}
+		
+		.ui-dialog .ui-dialog-titlebar-minimize:hover, .ui-dialog .ui-dialog-titlebar-minimize:focus {
+			padding: 0;
+		}
+		</style>
+	<link type="text/css" rel="stylesheet" href="chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/style.css"><script type="text/javascript" charset="utf-8" src="chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/js/page_context.js"></script><style>.lookupQYMHUK, .lookupforemostQYMHUK, .lookupdockedQYMHUK, .rowiframeQYMHUK, .celliframeQYMHUK, .iframeQYMHUK, .emptyQYMHUK, .barQYMHUK, .barforemostQYMHUK, .bardockedQYMHUK, .cellQYMHUK, .leftQYMHUK, .rightQYMHUK, .buttoncontainerQYMHUK, .buttonQYMHUK, .buttonimageQYMHUK, .waitingQYMHUK, .handleQYMHUK, .queryQYMHUK, .hintQYMHUK, .templateQYMHUK, .firstlevelgroupQYMHUK, .notfirstlevelgroupQYMHUK{
+	    background: none !important;
+	    border: 0px !important;
+	    border-style: none !important;
+	     color: black !important;
+	     direction: ltr !important;
+	     float: none !important;
+	     font-family: sans-serif !important;
+	     font-size: small !important;
+	     font-style: normal !important;
+	     font-variant: normal !important;
+	     font-weight: normal !important;
+	     letter-spacing: normal !important;
+	     line-height: normal !important;
+	     margin: 0px !important;
+	    padding: 0px !important;
+	    text-align: left !important;
+	     text-decoration: none !important;
+	     text-indent: 0px !important;
+	     text-transform: none !important;
+	     vertical-align: baseline !important;
+	    white-space: normal !important;
+}
+
+div.lookupQYMHUK{
+	     display: table !important;
+	     -webkit-transition: -webkit-box-shadow 0.25s linear, border-color 0.25s linear !important;
+}
+
+div.lookupforemostQYMHUK{
+}
+
+div.lookupdockedQYMHUK{
+}
+
+div.rowiframeQYMHUK{
+	     display: table-row !important;
+}
+
+div.rowiframeQYMHUK td.celliframeQYMHUK{
+	      display: table-cell !important;
+	      width: 100% !important;
+	      height: 100% !important;
+}
+
+td.celliframeQYMHUK iframe.iframeQYMHUK{
+	       display: inline !important;
+	       width: 100% !important;
+	       height: 100% !important;
+	       background-color: white !important;
+}
+
+iframe.emptyQYMHUK{
+	       background-image: url('chrome-extension://hljnlfolmbmibdjaikiaepgepgnldclj/img/128.png') !important;
+	       background-position: 50% 50% !important;
+	       background-repeat: no-repeat !important;
+}
+
+div.barQYMHUK{
+	     display: table-row !important;
+	     -webkit-transition: background 0.25s linear !important;
+	     width: 100% !important;
+	     cursor: move !important;
+	     background: lightgrey !important;
+}
+
+div.barforemostQYMHUK{
+	background: #84b7ea !important;
+}
+
+div.bardockedQYMHUK{
+	background: #336699 !important;
+}
+
+div.barQYMHUK div.cellQYMHUK{
+	     display: table-cell !important;
+	     vertical-align: middle !important;
+}
+
+div.leftQYMHUK{
+	     padding-right: 16px !important;
+	     text-align: left !important;
+}
+
+div.rightQYMHUK{
+	     white-space: nowrap !important;
+	     text-align: right !important;
+}
+
+span.buttoncontainerQYMHUK{
+	     display:inline !important;
+}
+
+a.buttonQYMHUK:link{
+	     display:inline !important;
+	     -webkit-user-select: none !important;
+	     color: transparent !important;
+}
+
+a.buttonQYMHUK img.buttonimageQYMHUK{
+	     display:inline !important;
+	     vertical-align: middle !important;
+}
+
+img.waitingQYMHUK{
+	     display:inline !important;
+	     cursor: pointer !important;
+	     -webkit-user-select: none !important;
+	     vertical-align: middle !important;
+	     padding-left: 6px !important;
+	 padding-right: 6px !important;
+}
+
+div.handleQYMHUK{
+	     display:block !important;
+	     cursor: se-resize !important;
+	     left: 100% !important;
+	     top: 100% !important;
+	     margin-left: -4px !important;
+	     margin-top: -4px !important;
+	     position: absolute !important;
+	     width: 8px !important;
+	 height: 8px !important;
+}
+
+input.queryQYMHUK{
+	     display:inline-block !important;
+	     background: white !important;
+	     vertical-align: top !important;
+	     border: 1px solid darkgrey !important;
+	      font-size: 13px !important;
+	      padding-top: 1px !important;
+	 padding-bottom: 1px !important;
+	     width: 12em !important;
+}
+
+.hintQYMHUK{
+	      color: lightgrey !important;
+	      font-style:italic !important;
+}
+
+select.templateQYMHUK{
+	     display:inline-block !important;
+	     background: white !important;
+	     font-size: 13px !important;
+	      border: 1px solid darkgrey !important;
+	      vertical-align: top !important;
+	     white-space: pre !important;
+	     width: 9em !important;
+	     margin-right: 2px !important;
+}
+
+optgroup.firstlevelgroupQYMHUK{
+	      color: blue !important;
+}
+
+.notfirstlevelgroupQYMHUK{
+	      color: black !important;
+}
+
+</style><style>.tipLBNLIT, .arrowLBNLIT, .arrowupLBNLIT, .arrowdownLBNLIT, .mainLBNLIT, .closeLBNLIT, .barLBNLIT, .rowLBNLIT, .cellLBNLIT, .leftLBNLIT, .rightLBNLIT, .displaytitleLBNLIT, .refreshLBNLIT, .pagingLBNLIT, .brandLBNLIT, .textLBNLIT, .leftlabelLBNLIT, .selectLBNLIT, .checkboxLBNLIT, .waitingLBNLIT, .buttoncontainerLBNLIT, .buttonLBNLIT, .buttonimageLBNLIT, .flagLBNLIT, .noticebarscontainerLBNLIT, .noticebarLBNLIT, .iframecontentLBNLIT{
+	    background: none !important;
+	    border: 0px !important;
+	    border-style: none !important;
+	     color: black !important;
+	     direction: ltr !important;
+	     float: none !important;
+	     font-family: sans-serif !important;
+	     font-size: small !important;
+	     font-style: normal !important;
+	     font-variant: normal !important;
+	     font-weight: normal !important;
+	     letter-spacing: normal !important;
+	     line-height: normal !important;
+	     margin: 0px !important;
+	    padding: 0px !important;
+	    text-align: left !important;
+	     text-decoration: none !important;
+	     text-indent: 0px !important;
+	     text-transform: none !important;
+	     vertical-align: baseline !important;
+	    white-space: normal !important;
+}
+
+div.tipLBNLIT{
+	     position: absolute !important;
+	     display:block !important;
+}
+
+div.arrowLBNLIT{
+	display:block !important;
+}
+
+canvas.arrowupLBNLIT{
+	      display: inline !important;
+	      vertical-align: bottom !important;
+}
+
+canvas.downupLBNLIT{
+	      display: inline !important;
+	      vertical-align: top !important;
+}
+
+div.mainLBNLIT{
+	display: block !important;
+}
+
+img.closeLBNLIT{
+	      display: block !important;
+	      -webkit-transition: opacity 0.5s linear !important;
+	      float: right !important;
+	      margin-right: -5px !important;
+	      margin-top: -5px !important;
+}
+
+div.barLBNLIT{
+	     display: table !important;
+	      margin-bottom: 4px !important;
+	     -webkit-user-select: none !important;
+	     width: 100% !important;
+}
+
+div.rowLBNLIT{
+	display: table-row !important;
+}
+
+div.cellLBNLIT{
+	      display: table-cell !important;
+	      vertical-align: middle !important;
+}
+
+.leftLBNLIT{
+	      padding-right: 16px !important;
+	      text-align: left !important;
+}
+
+.rightLBNLIT{
+	text-align: right !important;
+}
+
+span.refreshLBNLIT{
+	display: inline !important;
+}
+
+span.pagingLBNLIT{
+	      display: inline !important;
+	      font-size: x-small !important;
+}
+
+span.buttoncontainerLBNLIT{
+	display: inline !important;
+}
+
+span.displaytitleLBNLIT{
+	      display: inline !important;
+	      padding-left: 6px !important;
+	      font-size: small !important;
+	      font-weight: bold !important;
+}
+
+span.displaytitleLBNLIT a:link{
+	       display: inline !important;
+	       color: #0645AD !important;
+	       text-decoration: none !important;
+}
+
+span.displaytitleLBNLIT img{
+	display: inline !important;
+}
+
+span.brandLBNLIT{
+	      display: inline !important;
+	      font-size: x-small !important;
+}
+
+.brandLBNLIT a{
+	       display: inline !important;
+	       font-size: x-small !important;
+}
+
+.brandLBNLIT a:link{
+	       display: inline !important;
+	       color: #0645AD !important;
+	       text-decoration: none !important;
+}
+
+.brandLBNLIT a:visited{
+	       display: inline !important;
+	       color: #0B0080 !important;
+	       text-decoration: none !important;
+}
+
+span.textLBNLIT{
+	      display: inline !important;
+	      font-size: x-small !important;
+}
+
+label.leftlabelLBNLIT{
+	      display: inline !important;
+	      font-size: x-small !important;
+	      margin-right: 3px !important;
+}
+
+select.selectLBNLIT{
+	       display: inline-block !important;
+	       border: 1px solid darkgrey !important;
+	       white-space: pre !important;
+	       font-size: x-small !important;
+}
+
+input.checkboxLBNLIT{
+	      display: inline-block !important;
+	      vertical-align: text-top !important;
+	      font-size: x-small !important;
+	      margin-right: 0.3em !important;
+}
+
+img.waitingLBNLIT{
+	      display: inline !important;
+	      -webkit-user-select: none !important;
+	      vertical-align: middle !important;
+	      padding-left: 3px !important;
+}
+
+a.buttonLBNLIT, a.buttonLBNLIT:link{
+	      display: inline !important;
+	      -webkit-user-select: none !important;
+	      color: transparent !important;
+	      margin-right: 2px !important;
+}
+
+img.buttonimageLBNLIT{
+	      display: inline !important;
+	      vertical-align: middle !important;
+}
+
+img.flagLBNLIT{
+	      display: inline !important;
+	      vertical-align: middle !important;
+	      padding-bottom:2px !important;
+}
+
+img.buttonselectedLBNLIT{
+	      display: inline !important;
+	      background: #dd8 !important;
+	      border: 1px solid #bb6 !important;
+	      margin: -1px !important;
+	      border-radius: 2px !important;
+}
+
+div.noticebarscontainerLBNLIT{
+	     display: block !important;
+	     text-align: left !important;
+	     margin-bottom: 4px !important;
+	     overflow-y: auto !important;
+}
+
+div.noticebarLBNLIT{
+	     display: block !important;
+	     background: white !important;
+	     font-size: x-small !important;
+	     border-left: 3px solid lightGrey !important;
+	     margin-bottom: 1px !important;
+	     padding-left: 2px !important;
+}
+
+div.noticebarLBNLIT img{
+	      display: inline !important;
+	      margin-right: 1px !important;
+	      vertical-align: text-top !important;
+}
+
+div.noticebarLBNLIT a{
+	      display: inline !important;
+	      font-family: sans-serif !important;
+	       font-style: normal !important;
+	       font-variant: normal !important;
+	       font-weight: normal !important;
+	       font-size: x-small !important;
+}
+
+div.noticebarLBNLIT a:link{
+	      display: inline !important;
+	      color: #0645AD !important;
+	      text-decoration: none !important;
+}
+
+div.noticebarLBNLIT a:visited{
+	      display: inline !important;
+	      color: #0B0080 !important;
+	      text-decoration: none !important;
+}
+
+iframe.iframecontentLBNLIT{
+	     display: inline !important;
+	     width: 100% !important;
+}
+
+</style><style id="simplehl_hlstyle_AHOMRW">.simplehl1_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #000000!important; background-color: rgba(255,0,0,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } .simplehl2_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #000000!important; background-color: rgba(255,165,0,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } .simplehl3_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #000000!important; background-color: rgba(255,255,96,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } .simplehl4_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #000000!important; background-color: rgba(96,255,96,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } .simplehl5_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #000000!important; background-color: rgba(96,255,255,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } .simplehl6_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #000000!important; background-color: rgba(255,96,255,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } .simplehl7_HROCJQ { display: inline!important;font-family:inherit!important; font-style:inherit!important; font-variant:inherit!important; font-weight:inherit!important; border-color: transparent !important; color: #ffffff!important; background-color: rgba(0,0,0,0.7)!important; font-size: inherit!important; -webkit-transition-property: color, background-color, -webkit-box-shadow; -webkit-transition-duration: 0.5s, 0.5s, 0.5s; -webkit-transition-timing-function: linear, linear, linear; padding: 0.2em!important; -webkit-box-shadow: rgba(0,0,0,0.42) 3px 3px 4px!important; border-radius: 6px!important; } </style><style id="simplehl_flashstyle_NVLDYK">@-webkit-keyframes flash {         0% {             opacity: 1;         }         100% {             opacity: 0;         }}</style></head>
+	<body screen_capture_injected="true">
+		<div id="dialog_window_minimized_container"><div class="dialog_window_minimized ui-widget ui-state-default ui-corner-all" id="dialog_window_1_minimized">Create a new Dialog Window<span class="ui-icon ui-icon-newwin"></span></div></div>
+		
+		<button id="create_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Create a new Window</span></button>
+	
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable" tabindex="-1" role="dialog" aria-labelledby="ui-dialog-title-dialog_window_1" style="display: none; z-index: 1000; outline: 0px; position: absolute;"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-dialog-title-dialog_window_1">Create a new <code>Dialog</code> Window</span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a><a href="#" id="dialog_window_1-minbutton" class="ui-dialog-titlebar-minimize ui-corner-all"><span class="ui-icon ui-icon-minusthick"></span></a></div><div id="dialog_window_1" class="dialog_window ui-dialog-content ui-widget-content">
+			<h3>Create a new <code>Dialog</code> Window</h3>
+			<table class="dialog_form">
+				<tbody><tr>
+					<th>Window Title</th>
+				</tr>
+				<tr>
+					<td><input type="text" id="new_window_title"></td>
+				</tr>
+				<tr>
+					<th>
+						Window Content
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<textarea id="new_window_content"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Window Buttons
+					</th>
+				</tr>
+				<tr>
+					<td id="buttonlist" class="ui-buttonset">
+						<input type="checkbox" id="alertbutton" class="ui-helper-hidden-accessible"><label for="alertbutton" aria-pressed="false" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button" aria-disabled="false"><span class="ui-button-text">ALERT</span></label>
+						<input type="checkbox" id="closebutton" class="ui-helper-hidden-accessible"><label for="closebutton" aria-pressed="false" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" role="button" aria-disabled="false"><span class="ui-button-text">CLOSE</span></label>
+					</td>
+				</tr>
+			</tbody></table>
+		</div><div class="ui-resizable-handle ui-resizable-n"></div><div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div class="ui-resizable-handle ui-resizable-w"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se" style="z-index: 1001;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 1002;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 1003;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 1004;"></div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Create</span></button></div></div></div>
+		<script>
+		$(document).ready(function() {   		  
+		  if(localStorage['currentpage'] !== undefined) {
+        document.querySelector('html').innerHTML = localStorage['currentpage'];
+	    }
+		  $('*').live('blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize scroll select submit', function(){
+        localStorage['currentpage'] = document.querySelector('html').innerHTML;
+      });
+    });
+		</script>
+		</body>
+		</html>
